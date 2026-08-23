@@ -130,7 +130,6 @@ The application follows a client-server architecture using the MERN Stack.
 
 The project is organized into separate frontend and backend modules to maintain a clean and scalable application structure.
 
-```markdown
 ```text
 Employee-Leave-Management-Portal/
 │
@@ -162,7 +161,6 @@ Employee-Leave-Management-Portal/
 
 ---
 
-```markdown
 ## 🔐 Authentication & Authorization
 
 The application implements secure authentication and role-based authorization for Employees and HR users.
