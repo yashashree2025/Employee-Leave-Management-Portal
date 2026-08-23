@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 function MyLeaves() {
   const [leaves, setLeaves] = useState([]);
 
-  useEffect(() => {
-    fetchLeaves();
-  }, []);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  const fetchLeaves = async () => {
+  const fetchLeaves = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/leaves/my",
+        `${API_URL}/api/leaves/my`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -23,9 +21,13 @@ function MyLeaves() {
 
       setLeaves(response.data);
     } catch (error) {
-      console.log(error.response?.data?.message || error.message);
+      // Error handled without exposing sensitive information
     }
-  };
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchLeaves();
+  }, [fetchLeaves]);
 
   return (
     <div className="container mt-5">
@@ -47,22 +49,35 @@ function MyLeaves() {
         </thead>
 
         <tbody>
+
           {leaves.length > 0 ? (
+
             leaves.map((leave) => (
+
               <tr key={leave._id}>
-                <td>{leave.leaveType}</td>
 
                 <td>
-                  {new Date(leave.startDate).toLocaleDateString()}
+                  {leave.leaveType}
                 </td>
 
                 <td>
-                  {new Date(leave.endDate).toLocaleDateString()}
+                  {new Date(
+                    leave.startDate
+                  ).toLocaleDateString()}
                 </td>
 
-                <td>{leave.reason}</td>
+                <td>
+                  {new Date(
+                    leave.endDate
+                  ).toLocaleDateString()}
+                </td>
 
                 <td>
+                  {leave.reason}
+                </td>
+
+                <td>
+
                   {leave.status === "Pending" && (
                     <span className="badge bg-warning text-dark">
                       Pending
@@ -80,16 +95,28 @@ function MyLeaves() {
                       Rejected
                     </span>
                   )}
+
                 </td>
+
               </tr>
+
             ))
+
           ) : (
+
             <tr>
-              <td colSpan="5" className="text-center">
+
+              <td
+                colSpan="5"
+                className="text-center"
+              >
                 No Leave Requests Found
               </td>
+
             </tr>
+
           )}
+
         </tbody>
 
       </table>

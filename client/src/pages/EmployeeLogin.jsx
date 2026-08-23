@@ -11,12 +11,14 @@ function EmployeeLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email,
           password,
@@ -38,11 +40,6 @@ function EmployeeLogin() {
       navigate("/employee-dashboard");
 
     } catch (error) {
-
-      console.log(
-        error.response?.data?.message ||
-        error.message
-      );
 
       toast.error(
         error.response?.data?.message ||

@@ -11,6 +11,8 @@ function ApplyLeave() {
   const [endDate, setEndDate] = useState("");
   const [reason, setReason] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -18,7 +20,7 @@ function ApplyLeave() {
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
-        "http://localhost:5000/api/leaves/apply",
+        `${API_URL}/api/leaves/apply`,
         {
           leaveType,
           startDate,
@@ -37,11 +39,6 @@ function ApplyLeave() {
       navigate("/employee-dashboard");
 
     } catch (error) {
-
-      console.log(
-        error.response?.data?.message ||
-        error.message
-      );
 
       toast.error(
         error.response?.data?.message ||

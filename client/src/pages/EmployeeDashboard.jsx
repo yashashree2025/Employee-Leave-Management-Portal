@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
@@ -23,16 +23,14 @@ function EmployeeDashboard() {
     localStorage.getItem("employee")
   );
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/leaves/my",
+        `${API_URL}/api/leaves/my`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,12 +56,13 @@ function EmployeeDashboard() {
         ).length,
       });
     } catch (error) {
-      console.log(
-        error.response?.data?.message ||
-          error.message
-      );
+      // Error handled without exposing sensitive information
     }
-  };
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   return (
     <div className="d-flex">
@@ -148,7 +147,6 @@ function EmployeeDashboard() {
 
           </div>
 
-
           {/* Pending Leaves */}
           <div className="col-xl-3 col-md-6">
 
@@ -200,7 +198,6 @@ function EmployeeDashboard() {
 
           </div>
 
-
           {/* Approved Leaves */}
           <div className="col-xl-3 col-md-6">
 
@@ -251,7 +248,6 @@ function EmployeeDashboard() {
             </div>
 
           </div>
-
 
           {/* Rejected Leaves */}
           <div className="col-xl-3 col-md-6">
@@ -306,7 +302,6 @@ function EmployeeDashboard() {
 
         </div>
 
-
         {/* Quick Actions */}
         <div
           className="card shadow border-0 mt-5 p-4"
@@ -326,7 +321,6 @@ function EmployeeDashboard() {
             </small>
 
           </div>
-
 
           <div className="row g-4">
 
@@ -370,7 +364,6 @@ function EmployeeDashboard() {
               </Link>
 
             </div>
-
 
             {/* My Leaves */}
             <div className="col-md-6">

@@ -12,6 +12,8 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -49,7 +51,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${API_URL}/api/auth/register`,
         {
           name,
           department,
@@ -65,7 +67,8 @@ function Register() {
 
     } catch (error) {
       alert(
-        error.response?.data?.message || "Registration Failed"
+        error.response?.data?.message ||
+        "Registration Failed"
       );
     }
   };

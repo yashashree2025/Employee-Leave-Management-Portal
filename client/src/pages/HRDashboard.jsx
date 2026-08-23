@@ -12,6 +12,8 @@ import {
 } from "react-icons/fa";
 
 function HRDashboard() {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [stats, setStats] = useState({
     total: 0,
     pending: 0,
@@ -36,7 +38,7 @@ function HRDashboard() {
 
       // Get All Leave Requests
       const response = await axios.get(
-        "http://localhost:5000/api/leaves",
+       `${API_URL}/api/leaves`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +69,7 @@ function HRDashboard() {
 
       // Get Total Employees
       const employeeResponse = await axios.get(
-        "http://localhost:5000/api/auth/count",
+        `${API_URL}/api/auth/count`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -121,7 +123,7 @@ function HRDashboard() {
     const token = localStorage.getItem("token");
 
     await axios.put(
-      `http://localhost:5000/api/leaves/${id}`,
+      `${API_URL}/api/leaves/${id}`,
       { status },
       {
         headers: {
@@ -134,18 +136,12 @@ function HRDashboard() {
 
     fetchLeaves();
 
-  } catch (error) {
-
-    console.log(
-      error.response?.data?.message ||
-      error.message
-    );
-
-    toast.error(
-      error.response?.data?.message ||
-      "Something went wrong!"
-    );
-  }
+ } catch (error) {
+  toast.error(
+    error.response?.data?.message ||
+    "Something went wrong!"
+  );
+}
 };
 
 
