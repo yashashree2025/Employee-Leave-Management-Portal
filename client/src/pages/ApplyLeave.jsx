@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Sidebar from "../components/Sidebar";
 
 function ApplyLeave() {
   const navigate = useNavigate();
@@ -39,136 +40,194 @@ function ApplyLeave() {
       navigate("/employee-dashboard");
 
     } catch (error) {
-
       toast.error(
         error.response?.data?.message ||
-        "Something went wrong"
+          "Something went wrong"
       );
-
     }
   };
 
   return (
-    <div className="container mt-5">
+    <div className="d-flex">
 
-      <div className="row justify-content-center">
+      {/* Sidebar */}
+      <Sidebar role="Employee" />
 
-        <div className="col-md-6">
+      {/* Main Content */}
+      <div
+        className="flex-grow-1 bg-light"
+        style={{
+          marginLeft: "260px",
+          minHeight: "100vh",
+          padding: "35px",
+        }}
+      >
 
-          <div className="card shadow p-4">
+        {/* Page Header */}
+        <div className="mb-4">
 
-            <h2 className="text-center text-primary mb-4">
-              Apply Leave
-            </h2>
+          <h2 className="fw-bold text-dark mb-1">
+            Apply Leave
+          </h2>
 
-            <form onSubmit={handleSubmit}>
+          <p className="text-muted mb-0">
+            Submit your leave request
+          </p>
 
-              {/* Leave Type */}
+        </div>
 
-              <div className="mb-3">
 
-                <label className="form-label">
-                  Leave Type
-                </label>
+        {/* Apply Leave Form */}
+        <div className="row justify-content-center">
 
-                <select
-                  className="form-select"
-                  value={leaveType}
-                  onChange={(e) =>
-                    setLeaveType(e.target.value)
-                  }
-                  required
-                >
+          <div className="col-lg-8 col-xl-7">
 
-                  <option value="">
-                    Select Leave Type
-                  </option>
+            <div
+              className="card border-0 shadow-sm"
+              style={{
+                borderRadius: "14px",
+              }}
+            >
 
-                  <option value="Sick">
-                    Sick Leave
-                  </option>
+              <div className="card-body p-4 p-md-5">
 
-                  <option value="Casual">
-                    Casual Leave
-                  </option>
+                <h4 className="fw-bold mb-4">
+                  Leave Request Details
+                </h4>
 
-                  <option value="Earned">
-                    Earned Leave
-                  </option>
 
-                </select>
+                <form onSubmit={handleSubmit}>
+
+                  {/* Leave Type */}
+                  <div className="mb-4">
+
+                    <label className="form-label fw-semibold">
+                      Leave Type
+                    </label>
+
+                    <select
+                      className="form-select"
+                      value={leaveType}
+                      onChange={(e) =>
+                        setLeaveType(e.target.value)
+                      }
+                      required
+                    >
+
+                      <option value="">
+                        Select Leave Type
+                      </option>
+
+                      <option value="Sick">
+                        Sick Leave
+                      </option>
+
+                      <option value="Casual">
+                        Casual Leave
+                      </option>
+
+                      <option value="Earned">
+                        Earned Leave
+                      </option>
+
+                    </select>
+
+                  </div>
+
+
+                  {/* Dates */}
+                  <div className="row">
+
+                    {/* Start Date */}
+                    <div className="col-md-6 mb-4">
+
+                      <label className="form-label fw-semibold">
+                        Start Date
+                      </label>
+
+                      <input
+                        type="date"
+                        className="form-control"
+                        value={startDate}
+                        onChange={(e) =>
+                          setStartDate(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+
+                    {/* End Date */}
+                    <div className="col-md-6 mb-4">
+
+                      <label className="form-label fw-semibold">
+                        End Date
+                      </label>
+
+                      <input
+                        type="date"
+                        className="form-control"
+                        value={endDate}
+                        onChange={(e) =>
+                          setEndDate(e.target.value)
+                        }
+                        required
+                      />
+
+                    </div>
+
+                  </div>
+
+
+                  {/* Reason */}
+                  <div className="mb-4">
+
+                    <label className="form-label fw-semibold">
+                      Reason
+                    </label>
+
+                    <textarea
+                      className="form-control"
+                      rows="5"
+                      placeholder="Enter your leave reason"
+                      value={reason}
+                      onChange={(e) =>
+                        setReason(e.target.value)
+                      }
+                      required
+                    ></textarea>
+
+                  </div>
+
+
+                  {/* Buttons */}
+                  <div className="d-flex gap-3">
+
+                    <button
+                      type="submit"
+                      className="btn btn-primary px-4"
+                    >
+                      Apply Leave
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary px-4"
+                      onClick={() =>
+                        navigate("/employee-dashboard")
+                      }
+                    >
+                      Cancel
+                    </button>
+
+                  </div>
+
+                </form>
 
               </div>
 
-              {/* Start Date */}
-
-              <div className="mb-3">
-
-                <label className="form-label">
-                  Start Date
-                </label>
-
-                <input
-                  type="date"
-                  className="form-control"
-                  value={startDate}
-                  onChange={(e) =>
-                    setStartDate(e.target.value)
-                  }
-                  required
-                />
-
-              </div>
-
-              {/* End Date */}
-
-              <div className="mb-3">
-
-                <label className="form-label">
-                  End Date
-                </label>
-
-                <input
-                  type="date"
-                  className="form-control"
-                  value={endDate}
-                  onChange={(e) =>
-                    setEndDate(e.target.value)
-                  }
-                  required
-                />
-
-              </div>
-
-              {/* Reason */}
-
-              <div className="mb-3">
-
-                <label className="form-label">
-                  Reason
-                </label>
-
-                <textarea
-                  className="form-control"
-                  rows="4"
-                  placeholder="Enter Leave Reason"
-                  value={reason}
-                  onChange={(e) =>
-                    setReason(e.target.value)
-                  }
-                  required
-                ></textarea>
-
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-primary w-100"
-              >
-                Apply Leave
-              </button>
-
-            </form>
+            </div>
 
           </div>
 
