@@ -74,7 +74,7 @@ The project follows a structured client-server architecture with separate fronte
 
 | Technology    | Purpose                                       |
 | ------------- | --------------------------------------------- |
-| MongoDB Atlas | Cloud-based NoSQL database                    |
+| MongoDB Compass |  NoSQL database                    |
 | Mongoose      | MongoDB object modeling and schema management |
 
 ### Authentication & Security
